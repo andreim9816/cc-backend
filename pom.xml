@@ -16,6 +16,8 @@
 
     <modules>
         <module>banking-api</module>
+        <module>domain</module>
+        <module>payment</module>
     </modules>
 
     <properties>
