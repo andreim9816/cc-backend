@@ -1,8 +1,8 @@
-package com.example.banking.service;
+package com.example.bankingapi.service;
 
-import com.example.banking.dto.request.BankAccountReqDto;
 import com.example.banking.repository.BankAccountRepository;
-import com.example.banking.security.WebSecuritySupport;
+import com.example.bankingapi.dto.request.BankAccountReqDto;
+import com.example.bankingapi.security.WebSecuritySupport;
 import com.example.domain.model.BankAccount;
 import com.example.domain.model.User;
 import lombok.RequiredArgsConstructor;

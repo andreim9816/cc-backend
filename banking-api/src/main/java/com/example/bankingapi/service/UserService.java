@@ -1,9 +1,8 @@
-package com.example.banking.service;
+package com.example.bankingapi.service;
 
-import com.example.banking.dto.request.RegisterDto;
-import com.example.banking.exception.CustomException;
-import com.example.banking.mapper.Mapper;
-import com.example.banking.repository.UserRepository;
+import com.example.bankingapi.dto.request.RegisterDto;
+import com.example.bankingapi.exception.CustomException;
+import com.example.bankingapi.repository.UserRepository;
 import com.example.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +18,12 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final Mapper mapper;
 
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+    }
+
     public User registerUser(RegisterDto body) throws CustomException {
         isEmailUnique(body.getEmail());
         isPhoneUnique(body.getPhoneNumber());
@@ -28,12 +33,6 @@ public class UserService implements UserDetailsService {
         entity.setPassword(passwordEncoder.encode(body.getPassword()));
 
         return userRepository.save(entity);
-    }
-
-    @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
     }
 
     public void isEmailUnique(String email) throws CustomException {

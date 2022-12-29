@@ -1,8 +1,8 @@
-package com.example.banking.config;
+package com.example.bankingapi.config;
 
-import com.example.banking.security.AuthTokenFilter;
-import com.example.banking.security.JwtService;
-import com.example.banking.service.UserService;
+import com.example.bankingapi.security.AuthTokenFilter;
+import com.example.bankingapi.security.JwtService;
+import com.example.bankingapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import static com.example.banking.security.JwtService.API_PATH;
+import static com.example.bankingapi.security.JwtService.API_PATH;
 
 @Configuration
 @EnableGlobalMethodSecurity(

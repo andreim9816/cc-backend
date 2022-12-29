@@ -1,4 +1,4 @@
-package com.example.banking.security;
+package com.example.bankingapi.security;
 
 import com.example.domain.model.User;
 import lombok.RequiredArgsConstructor;

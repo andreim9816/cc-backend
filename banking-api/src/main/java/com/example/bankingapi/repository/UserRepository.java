@@ -1,4 +1,4 @@
-package com.example.banking.repository;
+package com.example.bankingapi.repository;
 
 import com.example.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
