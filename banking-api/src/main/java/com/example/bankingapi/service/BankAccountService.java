@@ -1,7 +1,7 @@
 package com.example.bankingapi.service;
 
-import com.example.banking.repository.BankAccountRepository;
 import com.example.bankingapi.dto.request.BankAccountReqDto;
+import com.example.bankingapi.repository.BankAccountRepository;
 import com.example.bankingapi.security.WebSecuritySupport;
 import com.example.domain.model.BankAccount;
 import com.example.domain.model.User;
@@ -36,10 +36,6 @@ public class BankAccountService {
         return accountRepository.save(newBankAccount);
     }
 
-    private boolean existsIban(String iban) {
-        return accountRepository.findByIban(iban).isPresent();
-    }
-
     private String generateIban() {
         String alphabet = "0123456789ABCDE";
         int N = alphabet.length();
@@ -56,5 +52,9 @@ public class BankAccountService {
                 return newIban;
             }
         }
+    }
+
+    private boolean existsIban(String iban) {
+        return accountRepository.findByIban(iban).isPresent();
     }
 }

@@ -2,6 +2,8 @@ package com.example.bankingapi.dto.response;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,4 +15,5 @@ public class UserDto {
     private String username;
     private String phoneNumber;
     private String email;
+    private List<BankAccountDto> bankAccounts;
 }

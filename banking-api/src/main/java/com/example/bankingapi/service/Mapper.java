@@ -1,14 +1,27 @@
 package com.example.bankingapi.service;
 
 import com.example.bankingapi.dto.request.RegisterDto;
+import com.example.bankingapi.dto.response.BankAccountDto;
 import com.example.bankingapi.dto.response.UserDto;
+import com.example.domain.model.BankAccount;
 import com.example.domain.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
+
+    public BankAccountDto toDto(BankAccount account) {
+        return BankAccountDto.builder()
+                .id(account.getId())
+                .iban(account.getIban())
+                .currency(account.getCurrency())
+                .amount(account.getAmount())
+                .userId(account.getUser().getId())
+                .build();
+    }
 
     public UserDto toDto(User user) {
         return UserDto.builder()
@@ -16,6 +29,7 @@ public class Mapper {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .bankAccounts(user.getBankAccounts().stream().map(this::toDto).collect(Collectors.toList()))
                 .build();
     }
 
