@@ -33,4 +33,10 @@ public class BankAccountController {
         return mapper.toDto(service.create(dto));
     }
 
+    @PatchMapping("/{iban}")
+    public BankAccountDto addBankAccount(@PathVariable String iban,
+                                         @RequestBody Double amount) {
+        System.out.println("in controller");
+        return mapper.toDto(service.updateAmount(iban, amount));
+    }
 }
