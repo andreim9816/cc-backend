@@ -1,5 +1,6 @@
 package com.example.bankingapi.service;
 
+import com.example.bankingapi.dto.request.AmountReqDto;
 import com.example.bankingapi.dto.request.BankAccountReqDto;
 import com.example.bankingapi.exception.BankAccountNotFoundException;
 import com.example.bankingapi.repository.BankAccountRepository;
@@ -38,12 +39,12 @@ public class BankAccountService {
         return accountRepository.save(newBankAccount);
     }
 
-    public BankAccount updateAmount(String iban, Double amount) {
+    public BankAccount updateAmount(String iban, AmountReqDto reqDto) {
         Optional<BankAccount> bankAccountOpt = accountRepository.findByIban(iban);
-        if(!bankAccountOpt.isPresent())
+        if (bankAccountOpt.isEmpty())
             throw new BankAccountNotFoundException("The bank account was not found");
         BankAccount bankAccount = bankAccountOpt.get();
-        Double newAmount = bankAccount.getAmount() + amount;
+        Double newAmount = bankAccount.getAmount() + reqDto.getAmount();
         bankAccount.setAmount(newAmount);
         return accountRepository.save(bankAccount);
     }
