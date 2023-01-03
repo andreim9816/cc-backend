@@ -1,6 +1,8 @@
 package com.example.bankingapi.service;
 
+import com.example.bankingapi.dto.request.AmountReqDto;
 import com.example.bankingapi.dto.request.BankAccountReqDto;
+import com.example.bankingapi.exception.BankAccountNotFoundException;
 import com.example.bankingapi.repository.BankAccountRepository;
 import com.example.bankingapi.security.WebSecuritySupport;
 import com.example.domain.model.BankAccount;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -34,6 +37,16 @@ public class BankAccountService {
                 .build();
 
         return accountRepository.save(newBankAccount);
+    }
+
+    public BankAccount updateAmount(String iban, AmountReqDto reqDto) {
+        Optional<BankAccount> bankAccountOpt = accountRepository.findByIban(iban);
+        if (bankAccountOpt.isEmpty())
+            throw new BankAccountNotFoundException("The bank account was not found");
+        BankAccount bankAccount = bankAccountOpt.get();
+        Double newAmount = bankAccount.getAmount() + reqDto.getAmount();
+        bankAccount.setAmount(newAmount);
+        return accountRepository.save(bankAccount);
     }
 
     private String generateIban() {
