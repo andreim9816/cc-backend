@@ -26,6 +26,12 @@ public class BankAccountService {
         return accountRepository.findAllByUserUsername(user.getUsername());
     }
 
+    public BankAccount getBankAccountByIban(String iban) {
+        Optional<BankAccount> bankAccountToOpt = accountRepository.findByIban(iban);
+        if (bankAccountToOpt.isEmpty())
+            throw new BankAccountNotFoundException("The iban " + iban + " doesn't exist");
+        return bankAccountToOpt.get();
+    }
     public BankAccount create(BankAccountReqDto dto) {
         User user = webSecuritySupport.getUser();
 

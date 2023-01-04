@@ -1,4 +1,4 @@
-package com.example.payment.exception;
+package com.example.bankingapi.exception;
 
 public class NotEnoughAmountException extends RuntimeException {
   public NotEnoughAmountException(String message) {

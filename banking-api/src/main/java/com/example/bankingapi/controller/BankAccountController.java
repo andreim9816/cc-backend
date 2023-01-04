@@ -22,6 +22,7 @@ import static com.example.bankingapi.security.JwtService.API_PATH;
 public class BankAccountController {
 
     private final BankAccountService service;
+
     private final Mapper mapper;
 
     @GetMapping
@@ -35,7 +36,7 @@ public class BankAccountController {
     }
 
     @PostMapping("/{iban}")
-    public BankAccountDto addBankAccount(@PathVariable String iban,
+    public BankAccountDto updateBankAccountAmount(@PathVariable String iban,
                                          @RequestBody AmountReqDto dto) {
         System.out.println("in controller");
         return mapper.toDto(service.updateAmount(iban, dto));

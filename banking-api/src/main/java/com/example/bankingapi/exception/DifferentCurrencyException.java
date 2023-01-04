@@ -1,4 +1,4 @@
-package com.example.payment.exception;
+package com.example.bankingapi.exception;
 
 public class DifferentCurrencyException extends RuntimeException {
   public DifferentCurrencyException(String message) {

@@ -23,10 +23,10 @@ public class Payment {
   private Currency currency;
 
   @ManyToOne
-  @JoinColumn(name = "IBAN_TO")
+  @JoinColumn(name = "ID_TO")
   private BankAccount bankAccountTo;
 
   @ManyToOne
-  @JoinColumn(name = "IBAN_FROM")
+  @JoinColumn(name = "ID_FROM")
   private BankAccount bankAccountFrom;
 }
