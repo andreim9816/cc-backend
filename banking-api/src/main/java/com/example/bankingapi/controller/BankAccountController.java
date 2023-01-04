@@ -13,12 +13,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.bankingapi.security.JwtService.API_PATH;
-
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(API_PATH + "/accounts")
+@RequestMapping("/accounts")
 public class BankAccountController {
 
     private final BankAccountService service;
