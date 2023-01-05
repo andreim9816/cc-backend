@@ -2,6 +2,7 @@ package com.example.bankingapi.controller;
 
 import com.example.bankingapi.dto.request.PaymentReqDto;
 import com.example.bankingapi.exception.DifferentCurrencyException;
+import com.example.bankingapi.exception.NegativeAmountException;
 import com.example.bankingapi.exception.NotEnoughAmountException;
 import com.example.bankingapi.service.BankAccountService;
 import com.example.bankingapi.service.ProducerService;
@@ -36,6 +37,8 @@ public class PaymentController {
             throw new DifferentCurrencyException("The accounts have different currencies");
 
         Double sentAmount = paymentDto.getAmount();
+        if(sentAmount < 0)
+            throw new NegativeAmountException("The sent amount cannot be negative");
         if (bankAccountFrom.getAmount() - sentAmount < 0)
             throw new NotEnoughAmountException("The account doesn't have enough resources to finish the payment");
 
