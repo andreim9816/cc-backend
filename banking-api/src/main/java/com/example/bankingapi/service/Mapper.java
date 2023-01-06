@@ -3,6 +3,7 @@ package com.example.bankingapi.service;
 import com.example.bankingapi.dto.request.PaymentReqDto;
 import com.example.bankingapi.dto.request.RegisterDto;
 import com.example.bankingapi.dto.response.BankAccountDto;
+import com.example.bankingapi.dto.response.PaymentDto;
 import com.example.bankingapi.dto.response.UserDto;
 import com.example.domain.model.BankAccount;
 import com.example.domain.model.Payment;
@@ -32,6 +33,16 @@ public class Mapper {
       .email(user.getEmail())
       .phoneNumber(user.getPhoneNumber())
       .bankAccounts(user.getBankAccounts().stream().map(this::toDto).collect(Collectors.toList()))
+      .build();
+  }
+
+  public PaymentDto toDto(Payment payment) {
+    return PaymentDto.builder()
+      .amount(payment.getAmount())
+      .currency(payment.getCurrency())
+      .ibanTo(payment.getBankAccountTo().getIban())
+      .ibanFrom(payment.getBankAccountFrom().getIban())
+      .timestamp(payment.getTimestamp())
       .build();
   }
 

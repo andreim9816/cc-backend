@@ -4,6 +4,7 @@ import com.example.domain.model.type.Currency;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -16,6 +17,8 @@ public class Payment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  private Timestamp timestamp;
 
   private Double amount;
 

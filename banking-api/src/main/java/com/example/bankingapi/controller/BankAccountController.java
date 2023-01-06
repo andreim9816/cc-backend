@@ -3,8 +3,10 @@ package com.example.bankingapi.controller;
 import com.example.bankingapi.dto.request.AmountReqDto;
 import com.example.bankingapi.dto.request.BankAccountReqDto;
 import com.example.bankingapi.dto.response.BankAccountDto;
+import com.example.bankingapi.dto.response.PaymentDto;
 import com.example.bankingapi.service.BankAccountService;
 import com.example.bankingapi.service.Mapper;
+import com.example.domain.model.Payment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +20,10 @@ import static com.example.bankingapi.security.JwtService.API_PATH;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping( "/accounts")
+@RequestMapping("/accounts")
 public class BankAccountController {
 
     private final BankAccountService service;
-
     private final Mapper mapper;
 
     @GetMapping
@@ -36,9 +37,17 @@ public class BankAccountController {
     }
 
     @PostMapping("/{iban}")
-    public BankAccountDto updateBankAccountAmount(@PathVariable String iban,
+    public BankAccountDto updateAmountForBankAccount(@PathVariable("iban") String iban,
                                          @RequestBody AmountReqDto dto) {
-        System.out.println("in controller");
         return mapper.toDto(service.updateAmount(iban, dto));
+    }
+
+    @GetMapping("/{iban}")
+    public List<PaymentDto> getPaymentsForBankAccount(@PathVariable("iban") String iban) {
+        System.out.println("IN CONTROLLER");
+        List<Payment> payments = service.getPayments(iban);
+        System.out.println(payments);
+        List<PaymentDto> paymentDtos = payments.stream().map(payment -> mapper.toDto(payment)).collect(Collectors.toList());
+        return paymentDtos;
     }
 }
