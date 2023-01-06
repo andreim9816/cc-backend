@@ -14,7 +14,7 @@ spring:
     queue: payment.queue
 
   datasource:
-    url: jdbc:mysql://localhost:3306/consults?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/banking?createDatabaseIfNotExist=true
     username: root
     password: root
   jpa.show-sql: true

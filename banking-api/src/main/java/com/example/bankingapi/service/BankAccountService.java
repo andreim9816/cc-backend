@@ -3,7 +3,7 @@ package com.example.bankingapi.service;
 import com.example.bankingapi.dto.request.AmountReqDto;
 import com.example.bankingapi.dto.request.BankAccountReqDto;
 import com.example.bankingapi.exception.BankAccountNotFoundException;
-import com.example.bankingapi.exception.CustomException;
+import com.example.bankingapi.exception.NegativeAmountException;
 import com.example.bankingapi.repository.BankAccountRepository;
 import com.example.bankingapi.security.WebSecuritySupport;
 import com.example.domain.model.BankAccount;
@@ -27,6 +27,12 @@ public class BankAccountService {
         return accountRepository.findAllByUserUsername(user.getUsername());
     }
 
+    public BankAccount getBankAccountByIban(String iban) {
+        Optional<BankAccount> bankAccountToOpt = accountRepository.findByIban(iban);
+        if (bankAccountToOpt.isEmpty())
+            throw new BankAccountNotFoundException("The iban " + iban + " doesn't exist");
+        return bankAccountToOpt.get();
+    }
     public BankAccount create(BankAccountReqDto dto) {
         User user = webSecuritySupport.getUser();
 
@@ -40,13 +46,12 @@ public class BankAccountService {
         return accountRepository.save(newBankAccount);
     }
 
-    public BankAccount updateAmount(String iban, AmountReqDto reqDto) throws CustomException {
+    public BankAccount updateAmount(String iban, AmountReqDto reqDto) {
         Optional<BankAccount> bankAccountOpt = accountRepository.findByIban(iban);
-
         if (bankAccountOpt.isEmpty())
             throw new BankAccountNotFoundException("The bank account was not found");
         if (reqDto.getAmount() < 0) {
-            throw new CustomException("Amount should be positive");
+            throw new NegativeAmountException("The amount cannot be negative");
         }
 
         BankAccount bankAccount = bankAccountOpt.get();

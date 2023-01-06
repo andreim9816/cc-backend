@@ -1,6 +1,6 @@
 package com.example.bankingapi.service;
 
-import com.example.domain.model.User;
+import com.example.bankingapi.dto.request.PaymentReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ public class ProducerService {
     @Value("${spring.rabbitmq.routingkey}")
     private String routingkey;
 
-    public void sendMessage(User user) {
-        rabbitTemplate.convertAndSend(exchange, routingkey, user);
+    public void sendMessage(PaymentReqDto paymentDto) {
+        rabbitTemplate.convertAndSend(exchange, routingkey, paymentDto);
     }
 }
