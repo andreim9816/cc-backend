@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.example.bankingapi.security.JwtService.API_PATH;
 
 @RestController
-@RequestMapping(API_PATH + "/payments")
+@RequestMapping("/payments")
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentController {

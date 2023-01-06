@@ -31,7 +31,7 @@ import static com.example.bankingapi.security.JwtService.COOKIE_KEY;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(API_PATH + "/auth")
+@RequestMapping( "/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

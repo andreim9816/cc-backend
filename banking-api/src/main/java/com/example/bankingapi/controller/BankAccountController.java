@@ -18,7 +18,7 @@ import static com.example.bankingapi.security.JwtService.API_PATH;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(API_PATH + "/accounts")
+@RequestMapping( "/accounts")
 public class BankAccountController {
 
     private final BankAccountService service;
