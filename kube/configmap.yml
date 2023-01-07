@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  DB_URL_BANK: jdbc:mysql://10.16.16.3:3306/banking?createDatabaseIfNotExist=true
+  DB_URL_PAYM: jdbc:mysql://104.199.54.62:3306/payments?createDatabaseIfNotExist=true

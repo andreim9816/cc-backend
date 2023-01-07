@@ -13,9 +13,9 @@ spring:
     routingkey: payment.routingkey
 
   datasource:
-    url: jdbc:mysql://localhost:3306/banking?createDatabaseIfNotExist=true
-    username: root
-    password: root
+    url: ${DB_URL_BANK}
+    username: ${DB_USER_BANK}
+    password: ${DB_PASS_BANK}
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-banking-service
+  labels:
+    app: banking-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: banking-service
+  template:
+    metadata:
+      labels:
+        app: banking-service
+    spec:
+      containers:
+        - name: banking-service
+          image: andreim98/banking-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL_BANK
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL_BANK
+                  name: configmap
+            - name: DB_USER_BANK
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USER_BANK
+                  name: secret-banking-api
+            - name: DB_PASS_BANK
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASS_BANK
+                  name: secret-banking-api
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: banking-service
+spec:
+  selector:
+    app: banking-service
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 30001

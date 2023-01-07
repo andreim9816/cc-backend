@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 public class BankingApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BankingApiApplication.class, args);
+        SpringApplication springApplication = new SpringApplication(BankingApiApplication.class);
+        springApplication.addListeners(new PropertiesLogger());
+        springApplication.run(args);
     }
 
 }
