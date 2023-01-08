@@ -51,6 +51,11 @@ spec:
                 secretKeyRef:
                   key: PASS_RABBITMQ
                   name: secret-rabbitmq
+            - name: URL_PAYMENT_SVC
+                valueFrom:
+                  configMapKeyRef:
+                    key: URL_PAYMENT_SVC
+                    name: configmap
 
 ---
 
