@@ -50,3 +50,27 @@ Or see the logs of the pod
 ```
 kubectl logs <POD_NAME> 
 ```
+8. **Horizontal Pod Autoscaling**
+
+Deploy the HPAs:
+```
+kubectl apply -f hpa-banking-api.yml
+kubectl apply -f hpa-rabbitmq.yml
+kubectl apply -f hpa-payment-api.yml
+```
+
+Check the status of the HPA:
+```
+kubectl get hpa
+```
+The format of the output will be the following:
+```shell
+NAME                  REFERENCE                               TARGETS                   MINPODS   MAXPODS   REPLICAS   AGE
+hpa-banking-service   Deployment/deployment-banking-service   234817536/150Mi, 0%/50%   1         4         4          3m17s
+hpa-payment-service   Deployment/deployment-payment-service   222525440/200Mi, 1%/50%   1         4         2          4m32s
+hpa-rabbitmq          Deployment/deployment-rabbitmq          104460288/200Mi, 2%/50%   1         4         1          3m10s
+```
+Delete a HPA:
+```
+kubectl delete hpa hpa-banking-service
+```
