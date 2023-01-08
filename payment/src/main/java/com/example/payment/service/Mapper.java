@@ -11,8 +11,7 @@ public class Mapper {
       .amount(payment.getAmount())
       .currency(payment.getCurrency())
       .ibanTo(payment.getIbanTo())
-      .ibanFrom(payment.getIbanFrom())
-      .timestamp(payment.getTimestamp())
+      .ibanFrom(payment.getIbanFrom()).timestamp(payment.getTimestamp())
       .build();
   }
 }

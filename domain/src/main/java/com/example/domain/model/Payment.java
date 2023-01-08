@@ -7,11 +7,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Builder
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Payment {
 
   @Id
@@ -30,4 +30,8 @@ public class Payment {
 
   @Column(name = "IBAN_FROM")
   private String ibanFrom;
+
+  public Timestamp getTimestamp() {
+    return this.timestamp;
+  }
 }

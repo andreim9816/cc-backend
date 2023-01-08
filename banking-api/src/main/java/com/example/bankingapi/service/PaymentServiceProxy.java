@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "payment-proxy", url = "${URL_PAYMENT_SVC}")
+@FeignClient(name = "payment-proxy", url = "${URL_PAYMENT_SVC}/api")
 public interface PaymentServiceProxy {
 
   @GetMapping("/payments/{iban}")
