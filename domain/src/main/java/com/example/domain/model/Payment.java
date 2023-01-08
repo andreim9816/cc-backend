@@ -25,11 +25,9 @@ public class Payment {
   @Enumerated(EnumType.STRING)
   private Currency currency;
 
-  @ManyToOne
-  @JoinColumn(name = "ID_TO")
-  private BankAccount bankAccountTo;
+  @Column(name = "IBAN_TO")
+  private String ibanTo;
 
-  @ManyToOne
-  @JoinColumn(name = "ID_FROM")
-  private BankAccount bankAccountFrom;
+  @Column(name = "IBAN_FROM")
+  private String ibanFrom;
 }

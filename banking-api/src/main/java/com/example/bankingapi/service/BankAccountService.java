@@ -31,24 +31,27 @@ public class BankAccountService {
     return accountRepository.findAllByUserUsername(user.getUsername());
   }
 
+    public BankAccount save(BankAccount bankAccount) {
+        return accountRepository.save(bankAccount);
+    }
+
+    public BankAccount create(BankAccountReqDto dto) {
+      User user = webSecuritySupport.getUser();
+      BankAccount newBankAccount = BankAccount.builder()
+        .currency(dto.getCurrency())
+        .iban(generateIban())
+        .amount(0.0)
+        .user(user)
+        .build();
+
+      return accountRepository.save(newBankAccount);
+    }
+
   public BankAccount getBankAccountByIban(String iban) {
     Optional<BankAccount> bankAccountToOpt = accountRepository.findByIban(iban);
     if (bankAccountToOpt.isEmpty())
       throw new BankAccountNotFoundException("The iban " + iban + " doesn't exist");
     return bankAccountToOpt.get();
-  }
-
-  public BankAccount create(BankAccountReqDto dto) {
-    User user = webSecuritySupport.getUser();
-
-    BankAccount newBankAccount = BankAccount.builder()
-      .currency(dto.getCurrency())
-      .iban(generateIban())
-      .amount(0.0)
-      .user(user)
-      .build();
-
-    return accountRepository.save(newBankAccount);
   }
 
   public BankAccount updateAmount(String iban, AmountReqDto reqDto) {
@@ -69,7 +72,7 @@ public class BankAccountService {
     BankAccount bankAccount = getBankAccountByIban(iban);
     List<Payment> payments = paymentRepository.getPaymentByBankAccountFromOrBankAccountToOrderByTimestamp(bankAccount, bankAccount);
     return payments.stream().map(payment -> {
-      if (payment.getBankAccountFrom().getIban().equals(iban))
+      if (payment.getIbanFrom().equals(iban))
         payment.setAmount(-payment.getAmount());
       return payment;
     }).collect(Collectors.toList());

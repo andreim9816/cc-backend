@@ -5,9 +5,9 @@ server:
 
 spring:
   rabbitmq:
-    hostname: localhost
-    username: guest
-    password: guest
+    hostname: ${HOSTNAME_RABBITMQ}
+    username: ${USER_RABBITMQ}
+    password: ${PASS_RABBITMQ}
     port: 5672
     exchange: payment.exchange
     routingkey: payment.routingkey

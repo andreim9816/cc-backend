@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: andreim98/rabbitmq
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5672
+          env:
+            - name: HOSTNAME_RABBITMQ
+              valueFrom:
+                configMapKeyRef:
+                  key: HOSTNAME_RABBITMQ
+                  name: configmap
+            - name: USER_RABBITMQ
+              valueFrom:
+                secretKeyRef:
+                  key: USER_RABBITMQ
+                  name: secret-rabbitmq
+            - name: PASS_RABBITMQ
+              valueFrom:
+                secretKeyRef:
+                  key: PASS_RABBITMQ
+                  name: secret-rabbitmq
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  selector:
+    app: rabbitmq
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 5672
