@@ -42,6 +42,12 @@ public class PaymentController {
         if (bankAccountFrom.getAmount() - sentAmount < 0)
             throw new NotEnoughAmountException("The account doesn't have enough resources to finish the payment");
 
+        bankAccountTo.setAmount(bankAccountTo.getAmount() + sentAmount);
+        bankAccountFrom.setAmount(bankAccountFrom.getAmount() - sentAmount);
+
+        bankAccountService.save(bankAccountFrom);
+        bankAccountService.save(bankAccountTo);
+
         producerService.sendMessage(paymentDto);
         log.info("payment sent: " + paymentDto);
         return ResponseEntity.ok(paymentDto);

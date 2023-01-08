@@ -1,41 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-banking-service
+  name: deployment-payment-service
   labels:
-    app: banking-service
+    app: payment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: banking-service
+      app: payment
   template:
     metadata:
       labels:
-        app: banking-service
+        app: payment
     spec:
       containers:
-        - name: banking-service
-          image: andreim98/banking-api
+        - name: payment-service
+          image: andreim98/payment-api
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8082
           env:
-            - name: DB_URL_BANK
+            - name: DB_URL_PAYM
               valueFrom:
                 configMapKeyRef:
-                  key: DB_URL_BANK
+                  key: DB_URL_PAYM
                   name: configmap
-            - name: DB_USER_BANK
+            - name: DB_USER_PAYM
               valueFrom:
                 secretKeyRef:
-                  key: DB_USER_BANK
-                  name: secret-banking-api
-            - name: DB_PASS_BANK
+                  key: DB_USER_PAYM
+                  name: secret-payment-api
+            - name: DB_PASS_PAYM
               valueFrom:
                 secretKeyRef:
-                  key: DB_PASS_BANK
-                  name: secret-banking-api
+                  key: DB_PASS_PAYM
+                  name: secret-payment-api
             - name: HOSTNAME_RABBITMQ
               valueFrom:
                 configMapKeyRef:
@@ -57,13 +57,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: banking-service
+  name: payment-service
 spec:
   selector:
-    app: banking-service
-  type: NodePort
+    app: payment
+  type: ClusterIP
   ports:
     - name: http
-      port: 8080
-      targetPort: 8080
-      nodePort: 30001
+      port: 8082
