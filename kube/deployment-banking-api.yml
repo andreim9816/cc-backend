@@ -56,6 +56,27 @@ spec:
                 configMapKeyRef:
                   key: URL_PAYMENT_SVC
                   name: configmap
+          resources:
+            requests:
+              memory: "1500Mi"
+              cpu: "500m"
+            limits:
+              memory: "1500Mi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 30001
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 30001
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            failureThreshold: 2
 
 ---
 
