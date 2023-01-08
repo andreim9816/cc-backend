@@ -36,16 +36,6 @@ public class Mapper {
       .build();
   }
 
-  public PaymentDto toDto(Payment payment) {
-    return PaymentDto.builder()
-      .amount(payment.getAmount())
-      .currency(payment.getCurrency())
-      .ibanTo(payment.getBankAccountTo().getIban())
-      .ibanFrom(payment.getBankAccountFrom().getIban())
-      .timestamp(payment.getTimestamp())
-      .build();
-  }
-
   public User toEntity(RegisterDto dto) {
     return User.builder()
       .username(dto.getUsername())
