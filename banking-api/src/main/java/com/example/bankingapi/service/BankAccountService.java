@@ -5,10 +5,8 @@ import com.example.bankingapi.dto.request.BankAccountReqDto;
 import com.example.bankingapi.exception.BankAccountNotFoundException;
 import com.example.bankingapi.exception.NegativeAmountException;
 import com.example.bankingapi.repository.BankAccountRepository;
-import com.example.bankingapi.repository.PaymentRepository;
 import com.example.bankingapi.security.WebSecuritySupport;
 import com.example.domain.model.BankAccount;
-import com.example.domain.model.Payment;
 import com.example.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,14 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BankAccountService {
 
   private final BankAccountRepository accountRepository;
-  private final PaymentRepository paymentRepository;
   private final WebSecuritySupport webSecuritySupport;
 
   public List<BankAccount> findAllForCurrentUser() {
@@ -66,16 +62,6 @@ public class BankAccountService {
     Double newAmount = bankAccount.getAmount() + reqDto.getAmount();
     bankAccount.setAmount(newAmount);
     return accountRepository.save(bankAccount);
-  }
-
-  public List<Payment> getPayments(String iban) {
-    BankAccount bankAccount = getBankAccountByIban(iban);
-    List<Payment> payments = paymentRepository.getPaymentByBankAccountFromOrBankAccountToOrderByTimestamp(bankAccount, bankAccount);
-    return payments.stream().map(payment -> {
-      if (payment.getIbanFrom().equals(iban))
-        payment.setAmount(-payment.getAmount());
-      return payment;
-    }).collect(Collectors.toList());
   }
 
   private String generateIban() {

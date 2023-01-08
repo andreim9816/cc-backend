@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +28,14 @@ public class PaymentService {
       .build();
 
     return paymentRepository.save(newPayment);
+  }
+
+  public List<Payment> getPayments(String iban) {
+    List<Payment> payments = paymentRepository.getPaymentByIbanFromOrIbanToOrderByTimestamp(iban, iban);
+    return payments.stream().map(payment -> {
+      if (payment.getIbanFrom().equals(iban))
+        payment.setAmount(-payment.getAmount());
+      return payment;
+    }).collect(Collectors.toList());
   }
 }

@@ -6,7 +6,7 @@ import com.example.bankingapi.dto.response.BankAccountDto;
 import com.example.bankingapi.dto.response.PaymentDto;
 import com.example.bankingapi.service.BankAccountService;
 import com.example.bankingapi.service.Mapper;
-import com.example.domain.model.Payment;
+import com.example.bankingapi.service.PaymentServiceProxy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,39 +15,37 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.bankingapi.security.JwtService.API_PATH;
-
 @Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/accounts")
 public class BankAccountController {
 
-    private final BankAccountService service;
+    private final BankAccountService bankAccountService;
+    private final PaymentServiceProxy paymentServiceProxy;
     private final Mapper mapper;
 
     @GetMapping
     public List<BankAccountDto> getBankAccounts() {
-        return service.findAllForCurrentUser().stream().map(mapper::toDto).collect(Collectors.toList());
+        return bankAccountService.findAllForCurrentUser().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @PostMapping
     public BankAccountDto addBankAccount(@RequestBody @Valid BankAccountReqDto dto) {
-        return mapper.toDto(service.create(dto));
+        return mapper.toDto(bankAccountService.create(dto));
     }
 
     @PostMapping("/{iban}")
     public BankAccountDto updateAmountForBankAccount(@PathVariable("iban") String iban,
                                          @RequestBody AmountReqDto dto) {
-        return mapper.toDto(service.updateAmount(iban, dto));
+        return mapper.toDto(bankAccountService.updateAmount(iban, dto));
     }
 
     @GetMapping("/{iban}")
     public List<PaymentDto> getPaymentsForBankAccount(@PathVariable("iban") String iban) {
         System.out.println("IN CONTROLLER");
-        List<Payment> payments = service.getPayments(iban);
+        List<PaymentDto> payments = paymentServiceProxy.getPayments(iban);
         System.out.println(payments);
-        List<PaymentDto> paymentDtos = payments.stream().map(payment -> mapper.toDto(payment)).collect(Collectors.toList());
-        return paymentDtos;
+        return payments;
     }
 }
