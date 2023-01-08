@@ -3,6 +3,17 @@ server:
   servlet:
     context-path: /api
 
+management:
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
 spring:
   rabbitmq:
     hostname: ${HOSTNAME_RABBITMQ}

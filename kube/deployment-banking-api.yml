@@ -56,6 +56,25 @@ spec:
                 configMapKeyRef:
                   key: URL_PAYMENT_SVC
                   name: configmap
+            - name: HMAC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: HMAC_SECRET
+                  name: secret-banking-api
+          livenessProbe:
+            httpGet:
+              path: /api/actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 150
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 150
+            periodSeconds: 20
+            failureThreshold: 3
 
 ---
 
