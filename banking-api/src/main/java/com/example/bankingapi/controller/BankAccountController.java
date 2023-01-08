@@ -43,9 +43,6 @@ public class BankAccountController {
 
     @GetMapping("/{iban}")
     public List<PaymentDto> getPaymentsForBankAccount(@PathVariable("iban") String iban) {
-        System.out.println("IN CONTROLLER");
-        List<PaymentDto> payments = paymentServiceProxy.getPayments(iban);
-        System.out.println(payments);
-        return payments;
+        return paymentServiceProxy.getPayments(iban);
     }
 }

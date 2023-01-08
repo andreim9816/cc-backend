@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "payment-service.default.svc.cluster.local", url = "http://localhost:8082/api")
+@FeignClient(name = "payment-proxy", url = "${URL_PAYMENT_SVC}")
 public interface PaymentServiceProxy {
 
   @GetMapping("/payments/{iban}")
