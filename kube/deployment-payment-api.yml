@@ -51,6 +51,20 @@ spec:
                 secretKeyRef:
                   key: PASS_RABBITMQ
                   name: secret-rabbitmq
+          livenessProbe:
+            httpGet:
+              path: /api/actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            failureThreshold: 3
 
 ---
 
