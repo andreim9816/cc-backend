@@ -35,7 +35,7 @@ public class BankAccountController {
         return mapper.toDto(bankAccountService.create(dto));
     }
 
-    @PostMapping("/{iban}")
+    @PutMapping("/{iban}")
     public BankAccountDto updateAmountForBankAccount(@PathVariable("iban") String iban,
                                          @RequestBody AmountReqDto dto) {
         return mapper.toDto(bankAccountService.updateAmount(iban, dto));

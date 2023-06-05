@@ -33,6 +33,16 @@ public class WebSecurityConfig {
     private final JwtService jwtService;
 
     @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter(jwtService, userService);
     }
@@ -48,19 +58,9 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
+//                .cors().disable()
                 .csrf().disable()
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -75,12 +75,13 @@ public class WebSecurityConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
+        return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowCredentials(true)
-                        .allowedOriginPatterns("*");
+                        .allowCredentials(true) //pot primi cookie-uri -> access-control-allow-credentials: true
+                        .allowedOriginPatterns("http://localhost:4200") //access-control-allow-origin: http://localhost:4200
+                        .allowedMethods("GET", "POST", "PUT", "DELETE"); //access-control-allow-methods: GET POST PUT DELETE
             }
         };
     }
